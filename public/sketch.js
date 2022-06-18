@@ -20,7 +20,8 @@ function setup() {
   clearBtn.position(90, 35)
   // tool box
   background(BACKGROUND_COLOR)
-  socket = io.connect("http://localhost:8000")
+  console.log(location)
+  socket = io.connect(`http://${location.host}`)
   socket.on("draw", drawFromPeer)
 }
 
