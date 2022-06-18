@@ -16,11 +16,14 @@ const io = socket(server)
 
 io.on("connection", (s) => {
   console.log("made socket connection", s.id)
-  // add user to the list of users
-  s.on("createRoom", (id) => {
-    // create a new room
-    s.join(id)
+  s.on("draw", (data) => {
+    s.broadcast.emit("draw", data)
   })
+  // add user to the list of users
+  // s.on("createRoom", (id) => {
+  // create a new room
+  // s.join(id)
+  // })
 })
 
 // create a room
@@ -29,3 +32,7 @@ app.use("/create", (req, res, next) => {
   req.room = room
   next()
 })
+
+// app.get("/:room", (req, res) => {
+// res.render(__dirname + "/public/here.html", { room: req.params.room })
+// })

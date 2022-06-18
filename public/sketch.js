@@ -21,6 +21,7 @@ function setup() {
   // tool box
   background(BACKGROUND_COLOR)
   socket = io.connect("http://localhost:8000")
+  socket.on("draw", drawFromPeer)
 }
 
 function draw() {
@@ -30,7 +31,7 @@ function draw() {
   stroke(255)
   strokeWeight(brushSize)
   if (mouseIsPressed === true) {
-    socket.emit("draw", { mouseX, mouseY, pmouseX, pmouseY })
+    socket.emit("draw", { mouseX, mouseY, pmouseX, pmouseY, brushSize })
     line(mouseX, mouseY, pmouseX, pmouseY)
   }
 }
@@ -48,4 +49,9 @@ function mouseDragged() {
 function mouseWheel(e) {
   brushSize += e.delta > 0 ? -5 : 5
   if (brushSize <= 0) brushSize = 1
+}
+
+function drawFromPeer(data) {
+  strokeWeight(data.brushSize)
+  line(data.mouseX, data.mouseY, data.pmouseX, data.pmouseY)
 }
