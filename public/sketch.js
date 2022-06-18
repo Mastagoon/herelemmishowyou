@@ -20,7 +20,7 @@ function setup() {
   clearBtn.position(90, 35)
   // tool box
   background(BACKGROUND_COLOR)
-  socket = io.connect("http://localhost:8080")
+  socket = io.connect("http://localhost:8000")
 }
 
 function draw() {
@@ -30,6 +30,7 @@ function draw() {
   stroke(255)
   strokeWeight(brushSize)
   if (mouseIsPressed === true) {
+    socket.emit("draw", { mouseX, mouseY, pmouseX, pmouseY })
     line(mouseX, mouseY, pmouseX, pmouseY)
   }
 }
